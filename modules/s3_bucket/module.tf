@@ -11,9 +11,9 @@ resource "aws_s3_bucket" "s3_bucket_object" {
 # Resource to create a S3 bucket object lock configuration.
 resource "aws_s3_bucket_object_lock_configuration" "s3_bucket_object_lock_object" {
   # If the object_lock_enabled is set to true, then create the S3 bucket object lock configuration. Else, don't create the S3 bucket object lock configuration.
-  count = var.object_lock_enabled ? 1 : 0
+  count = var.create_bucket && var.object_lock_enabled ? 1 : 0
 
-  bucket                = aws_s3_bucket.s3_bucket_object.id
+  bucket                = try(aws_s3_bucket.s3_bucket_object[0].id, null)
   expected_bucket_owner = var.expected_bucket_owner
 
   dynamic "rule" {
@@ -31,9 +31,9 @@ resource "aws_s3_bucket_object_lock_configuration" "s3_bucket_object_lock_object
 
 resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle_configuration_object" {
   # If the lifecycle_configuration_enabled is set to true, then create the S3 bucket lifecycle configuration. Else, don't create the S3 bucket lifecycle configuration.
-  count = var.lifecycle_configuration_enabled ? 1 : 0
+  count = var.create_bucket && var.lifecycle_configuration_enabled ? 1 : 0
 
-  bucket                = aws_s3_bucket.s3_bucket_object.id
+  bucket                = try(aws_s3_bucket.s3_bucket_object[0].id, null)
   expected_bucket_owner = var.expected_bucket_owner
 
   dynamic "rule" {
