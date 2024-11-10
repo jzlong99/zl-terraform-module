@@ -31,7 +31,7 @@ resource "aws_lambda_function" "lambda_function_obj" {
   reserved_concurrent_executions = var.reserved_concurrent_executions
   kms_key_arn                    = var.kms_key_arn
 
-  source_code_hash = filebase64sha256(var.filename)
+  # source_code_hash = filebase64sha256(var.filename)
 
   vpc_config {
     security_group_ids = var.vpc_security_group_ids != null ? var.vpc_security_group_ids : null
