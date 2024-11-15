@@ -76,41 +76,41 @@ resource "aws_api_gateway_stage" "this" {
 }
 
 
-data "aws_iam_policy_document" "this" {
-  statement {
-    effect = "Deny"
+# data "aws_iam_policy_document" "this" {
+#   statement {
+#     effect = "Deny"
 
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
+#     principals {
+#       type        = "*"
+#       identifiers = ["*"]
+#     }
 
-    sid       = "Allow invoke from source vpce"
-    actions   = ["execute-api:Invoke"]
-    resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].execution_arn}/*"]
+#     sid       = "Allow invoke from source vpce"
+#     actions   = ["execute-api:Invoke"]
+#     resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].execution_arn}/*"]
 
-    condition {
-      test     = "StringNotEquals"
-      variable = "aws:sourceVpce"
-      values   = var.vpce_source_ids
-    }
+#     condition {
+#       test     = "StringNotEquals"
+#       variable = "aws:sourceVpce"
+#       values   = var.vpce_source_ids
+#     }
 
-  }
-  statement {
-    effect = "Allow"
+#   }
+#   statement {
+#     effect = "Allow"
 
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
-    sid       = "Allow invoke from all"
-    actions   = ["execute-api:Invoke"]
-    resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].execution_arn}/*"]
-  }
-}
+#     principals {
+#       type        = "*"
+#       identifiers = ["*"]
+#     }
+#     sid       = "Allow invoke from all"
+#     actions   = ["execute-api:Invoke"]
+#     resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].execution_arn}/*"]
+#   }
+# }
 
 
-resource "aws_api_gateway_rest_api_policy" "this" {
-  rest_api_id = aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].id
-  policy      = data.aws_iam_policy_document.this.json
-}
+# resource "aws_api_gateway_rest_api_policy" "this" {
+#   rest_api_id = aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].id
+#   policy      = data.aws_iam_policy_document.this.json
+# }
