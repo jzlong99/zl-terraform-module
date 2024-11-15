@@ -87,7 +87,7 @@ data "aws_iam_policy_document" "this" {
 
     sid       = "Allow invoke from source vpce"
     actions   = ["execute-api:Invoke"]
-    resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj.execution_arn}/*"]
+    resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].execution_arn}/*"]
 
     condition {
       test     = "StringNotEquals"
@@ -105,7 +105,7 @@ data "aws_iam_policy_document" "this" {
     }
     sid       = "Allow invoke from all"
     actions   = ["execute-api:Invoke"]
-    resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj.execution_arn}/*"]
+    resources = ["${aws_api_gateway_rest_api.api_gateway_rest_api_obj[0].execution_arn}/*"]
   }
 }
 
